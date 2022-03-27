@@ -69,7 +69,7 @@ class Facebook_Clicker:
 
         self.scroll_screen(self.scroll_speed)
 
-        """
+        #comments detection
         c = 0
         while True:
             c += 1
@@ -98,7 +98,7 @@ class Facebook_Clicker:
                 self.click_pos(pos)
 
             self.scroll_screen(self.scroll_speed)
-        """
+
         self.scroll_screen(self.scroll_speed)
 
     def click_pos(self, pos):
@@ -125,7 +125,7 @@ class Facebook_Clicker:
         im.save(fname)
         self.image_seq += 1
 
-    """
+    #was commented down below
 
     def next_next_next_done(self):
         if not self.wait_for_image("images/next_rus.png"):
@@ -384,4 +384,4 @@ class Facebook_Clicker:
 
 
 
-    """
+
