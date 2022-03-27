@@ -14,7 +14,8 @@ from image_search.imagesearch import imagesearch_loop, imagesearch, many_imagese
 class Facebook_Clicker:
     def __init__(self):
         self.keyboard = Controller()
-        self.alexey = True
+        self.alexey = False
+        self.roman = True
 
         self.set_screen_specifics()
         self.latest_capture_position = 0
@@ -25,22 +26,23 @@ class Facebook_Clicker:
         self.scroll_speed = self.screensize[1] // 25
 
     def set_screen_specifics(self):
-        #sets screen area to be captured
+        # sets screen area to be captured
         if self.alexey:
             self.screen_box = (450, 200, 580, 850)
             self.image_save_folder = "c:\\FB_images\\"
+        elif self.roman:
+            self.screen_box = (500, 200, 520, 840)
+            self.image_save_folder = "d:\\FB_images\\"
         else:
-            self.screen_box = (500, 200, 1200, 1000)
-            self.image_save_folder = "c:\\FB_images\\"
+            ...
 
     def open_browser(self, url):
         chrome_path = '"c:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" '
         os.system(chrome_path + url)
 
-    def scan_channel(self, channel_url, cycles = 5000):
+    def scan_channel(self, channel_url, cycles=10):
         self.open_browser(channel_url)
         time.sleep(5)
-
 
         cwd = os.getcwd()
         print(cwd)
@@ -112,7 +114,6 @@ class Facebook_Clicker:
         self.total_scroll += scroll
         pyautogui.scroll(-scroll)
 
-
         if self.total_scroll - self.latest_capture_position > 500:
             self.capture_screen()
             self.latest_capture_position = self.total_scroll
@@ -123,7 +124,6 @@ class Facebook_Clicker:
         fname = f'{self.image_save_folder}scr_{seq_str}.png'
         im.save(fname)
         self.image_seq += 1
-
 
     """
 
@@ -385,4 +385,3 @@ class Facebook_Clicker:
 
 
     """
-
