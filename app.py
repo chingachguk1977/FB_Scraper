@@ -1,10 +1,10 @@
-from facebook_scraper import get_posts
-from facebook_scraper import *
-from staty import *
-from resources import creds  # put your login info in this file and variable locally
+#from py_autogy
+from Facebook_Clicker import Facebook_Clicker
+from proxies import test_proxies
 
-#merge1
-print(4)
-for post in get_posts(group='1543813289196226/', credentials=creds, pages=1):
-    print(post['text'][:50])
+#test_proxies()
+
+
+clicker = Facebook_Clicker()
+clicker.scan_channel("https://www.facebook.com/groups/1543813289196226")
 
