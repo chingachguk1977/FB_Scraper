@@ -50,6 +50,7 @@ class Facebook_Clicker:
             if pos[1] < 0 or c > 50:
                 break
             self.click_pos(pos)
+
         """
         c = 0
         while True:
