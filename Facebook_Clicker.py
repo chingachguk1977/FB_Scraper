@@ -14,18 +14,19 @@ from image_search.imagesearch import imagesearch_loop, imagesearch, many_imagese
 class Facebook_Clicker:
     def __init__(self):
         self.keyboard = Controller()
+        self.alexey = True
+
         self.set_screen_specifics()
         self.latest_capture_position = 0
         self.image_seq = 1
         user32 = ctypes.windll.user32
         self.screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
         print(self.screensize)
-        self.scroll_speed = self.screensize[1] // 10
+        self.scroll_speed = self.screensize[1] // 25
 
     def set_screen_specifics(self):
         #sets screen area to be captured
-        alexey = True
-        if alexey:
+        if self.alexey:
             self.screen_box = (450, 200, 580, 850)
             self.image_save_folder = "c:\\FB_images\\"
         else:
@@ -64,7 +65,7 @@ class Facebook_Clicker:
                 break
             self.click_pos(pos)
 
-        self.scroll_screen(self.screensize[1] // 10)
+        self.scroll_screen(self.scroll_speed)
 
         """
         c = 0
@@ -94,7 +95,7 @@ class Facebook_Clicker:
             if pos[1] > 0:
                 self.click_pos(pos)
 
-            self.scroll_screen(self.screensize[1] // 25)
+            self.scroll_screen(self.scroll_speed)
         """
         self.scroll_screen(self.scroll_speed)
 
