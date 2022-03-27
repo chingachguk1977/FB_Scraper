@@ -14,6 +14,23 @@ from image_search.imagesearch import imagesearch_loop, imagesearch, many_imagese
 class Facebook_Clicker:
     def __init__(self):
         self.keyboard = Controller()
+        self.set_screen_specifics()
+        self.latest_capture_position = 0
+        self.image_seq = 1
+        user32 = ctypes.windll.user32
+        self.screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
+        print(self.screensize)
+        self.scroll_speed = self.screensize[1] // 10
+
+    def set_screen_specifics(self):
+        #sets screen area to be captured
+        alexey = True
+        if alexey:
+            self.screen_box = (450, 200, 580, 850)
+            self.image_save_folder = "c:\\FB_images\\"
+        else:
+            self.screen_box = (500, 200, 1200, 1000)
+            self.image_save_folder = "c:\\FB_images\\"
 
     def open_browser(self, url):
         chrome_path = '"c:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" '
@@ -23,9 +40,6 @@ class Facebook_Clicker:
         self.open_browser(channel_url)
         time.sleep(5)
 
-        user32 = ctypes.windll.user32
-        self.screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
-        print(self.screensize)
 
         cwd = os.getcwd()
         print(cwd)
@@ -35,7 +49,6 @@ class Facebook_Clicker:
             self.scroll_page(n)
 
     def scroll_page(self, n):
-
         c = 0
         while True:
             c += 1
@@ -50,6 +63,8 @@ class Facebook_Clicker:
             if pos[1] < 0 or c > 50:
                 break
             self.click_pos(pos)
+
+        self.scroll_screen(self.screensize[1] // 10)
 
         """
         c = 0
@@ -81,7 +96,7 @@ class Facebook_Clicker:
 
             self.scroll_screen(self.screensize[1] // 25)
         """
-        self.scroll_screen(self.screensize[1] // 5)
+        self.scroll_screen(self.scroll_speed)
 
     def click_pos(self, pos):
         pyautogui.moveTo(pos[0] + 10, pos[1] + 10)
@@ -95,6 +110,19 @@ class Facebook_Clicker:
         pyautogui.moveTo(20, self.screensize[1] // 2)
         self.total_scroll += scroll
         pyautogui.scroll(-scroll)
+
+
+        if self.total_scroll - self.latest_capture_position > 500:
+            self.capture_screen()
+            self.latest_capture_position = self.total_scroll
+
+    def capture_screen(self):
+        im = pyautogui.screenshot(region=self.screen_box)
+        seq_str = ('00000' + str(self.image_seq))[-5:]
+        fname = f'{self.image_save_folder}scr_{seq_str}.png'
+        im.save(fname)
+        self.image_seq += 1
+
 
     """
 
