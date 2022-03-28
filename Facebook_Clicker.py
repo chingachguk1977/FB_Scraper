@@ -48,7 +48,7 @@ class Facebook_Clicker:
 
         cwd = os.getcwd()
         print(cwd)
-
+        #---
         for _ in range(skip_cycles):
             self.scroll_screen_simple(self.scroll_speed)
             if win32api.GetKeyState(win32con.VK_NUMLOCK) == 1:
