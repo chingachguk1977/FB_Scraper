@@ -10,11 +10,14 @@ import pyautogui
 from pynput.keyboard import Key, Controller
 from image_search.imagesearch import imagesearch_loop, imagesearch, many_imagesearch
 
+import win32api
+import win32con
+
 
 class Facebook_Clicker:
     def __init__(self):
         self.keyboard = Controller()
-        self.alexey = False
+        self.alexey = True
         self.roman = True
 
         self.set_screen_specifics()
@@ -40,16 +43,23 @@ class Facebook_Clicker:
         chrome_path = '"c:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" '
         os.system(chrome_path + url)
 
-    def scan_channel(self, channel_url, cycles=10):
+    def scan_channel(self, channel_url, cycles=10, skip_cycles=0):
         self.open_browser(channel_url)
         time.sleep(5)
 
         cwd = os.getcwd()
         print(cwd)
 
+        for _ in range(skip_cycles):
+            self.scroll_screen_simple(self.scroll_speed)
+            if win32api.GetKeyState(win32con.VK_NUMLOCK) == 1:
+                break
+
         self.total_scroll = 0
         for n in range(cycles):
             self.scroll_page(n)
+            if win32api.GetKeyState(win32con.VK_NUMLOCK) == 1:
+                break
 
     def scroll_page(self, n):
         c = 0
@@ -60,7 +70,7 @@ class Facebook_Clicker:
                 y_limit = pos[1] + 30
             else:
                 y_limit = 0
-            print(y_limit)
+            #print(y_limit)
 
             pos = many_imagesearch(["img/all_rus.png"], y_limit)
             if pos[1] < 0 or c > 50:
@@ -79,7 +89,7 @@ class Facebook_Clicker:
                 y_limit = pos[1] + 30
             else:
                 y_limit = 0
-            print(y_limit)
+            #print(y_limit)
 
             pos = many_imagesearch(["img/comments_rus.png",
                                     "img/has_answered_rus.png", "img/has_answered2_rus.png",
@@ -105,9 +115,9 @@ class Facebook_Clicker:
         pyautogui.moveTo(pos[0] + 10, pos[1] + 10)
         time.sleep(0.2)
         pyautogui.click(button="left")
-        time.sleep(0.4)
-        pyautogui.moveTo(20, self.screensize[1] // 2)
         time.sleep(0.2)
+        pyautogui.moveTo(20, self.screensize[1] // 2)
+        time.sleep(0.1)
 
     def scroll_screen(self, scroll):
         pyautogui.moveTo(20, self.screensize[1] // 2)
@@ -118,6 +128,10 @@ class Facebook_Clicker:
             self.capture_screen()
             self.latest_capture_position = self.total_scroll
 
+    def scroll_screen_simple(self, scroll):
+        pyautogui.moveTo(20, self.screensize[1] // 2)
+        pyautogui.scroll(-scroll)
+
     def capture_screen(self):
         im = pyautogui.screenshot(region=self.screen_box)
         seq_str = ('00000' + str(self.image_seq))[-5:]
@@ -126,7 +140,8 @@ class Facebook_Clicker:
         self.image_seq += 1
 
     #was commented down below
-
+    # and let it stay commented
+    """
     def next_next_next_done(self):
         if not self.wait_for_image("images/next_rus.png"):
             time.sleep(50)
@@ -379,7 +394,7 @@ class Facebook_Clicker:
 
     def upload_from_info_file2(self, url_upload, param, param1, param2):
         pass
-
+    """
 
 
 
