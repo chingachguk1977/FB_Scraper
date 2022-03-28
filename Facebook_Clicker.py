@@ -13,7 +13,6 @@ from image_search.imagesearch import imagesearch_loop, imagesearch, many_imagese
 import win32api
 import win32con
 
-
 class Facebook_Clicker:
     def __init__(self):
         self.keyboard = Controller()
