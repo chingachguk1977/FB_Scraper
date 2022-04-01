@@ -5,18 +5,20 @@ import time
 import webbrowser
 import ctypes
 import os
+import pygetwindow as gw
 
 import pyautogui
 from pynput.keyboard import Key, Controller
 from image_search.imagesearch import imagesearch_loop, imagesearch, many_imagesearch
 
-import win32api
-import win32con
+#import win32api
+#import win32con
+
 
 class Facebook_Clicker:
     def __init__(self):
         self.keyboard = Controller()
-        self.alexey = True
+        self.alexey = False
         self.roman = True
 
         self.set_screen_specifics()
@@ -25,7 +27,7 @@ class Facebook_Clicker:
         user32 = ctypes.windll.user32
         self.screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
         print(self.screensize)
-        self.scroll_speed = self.screensize[1] // 25
+        self.scroll_speed = self.screensize[1] // 15
 
     def set_screen_specifics(self):
         # sets screen area to be captured
@@ -43,22 +45,28 @@ class Facebook_Clicker:
         os.system(chrome_path + url)
 
     def scan_channel(self, channel_url, cycles=10, skip_cycles=0):
-        self.open_browser(channel_url)
+        win = gw.getWindowsWithTitle('Chrome')[0]
+        win.activate()
+        #self.open_browser(channel_url)
+        #print('going to sleep for 5 seconds')
         time.sleep(5)
+        #print('woke up after 5 seconds')
 
         cwd = os.getcwd()
         print(cwd)
-        #---
+
+        # print(win32api.GetKeyState(win32con.VK_NUMLOCK))
+
         for _ in range(skip_cycles):
             self.scroll_screen_simple(self.scroll_speed)
-            if win32api.GetKeyState(win32con.VK_NUMLOCK) == 1:
-                break
+            #if win32api.GetKeyState(win32con.VK_NUMLOCK) == 1:
+            #    break
 
         self.total_scroll = 0
         for n in range(cycles):
             self.scroll_page(n)
-            if win32api.GetKeyState(win32con.VK_NUMLOCK) == 1:
-                break
+            #if win32api.GetKeyState(win32con.VK_NUMLOCK) == 1:
+            #    break
 
     def scroll_page(self, n):
         c = 0
